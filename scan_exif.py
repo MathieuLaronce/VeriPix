@@ -12,7 +12,7 @@ def print_kv(d):
 def read_with_pillow(path):
     img = Image.open(path)
     print(f"Format détecté: {img.format}, taille: {img.size}, mode: {img.mode}")
-    exif = img.getexif()  #  méthode actuelle
+    exif = img.getexif() 
     if not exif or len(exif) == 0:
         return {}
     out = {}
@@ -30,7 +30,7 @@ def read_with_exifread(path):
 def read_png_info(path):
     # Pour PNG/WebP, Pillow expose parfois des infos dans image.info (pas EXIF)
     img = Image.open(path)
-    return img.info  # dictionnaire (peut être vide)
+    return img.info  # dictionnaire 
 
 if not os.path.exists(image_path):
     print(" Le chemin ne pointe pas vers un fichier existant.")
@@ -39,10 +39,10 @@ else:
     try:
         pil_exif = read_with_pillow(image_path)
         if pil_exif:
-            print("✅ EXIF trouvées avec Pillow:")
+            print(" EXIF trouvées avec Pillow:")
             print_kv(pil_exif)
         else:
-            print("ℹ️ Aucune EXIF via Pillow, on essaie exifread...")
+            print("ℹAucune EXIF via Pillow essaie exifread...")
             # 2) Tentative exifread (souvent plus verbeux sur JPEG/TIFF)
             exifr = read_with_exifread(image_path)
             if exifr:
@@ -54,11 +54,11 @@ else:
                 if img.format in ("PNG", "WEBP"):
                     info = read_png_info(image_path)
                     if info:
-                        print("ℹ️ Pas d’EXIF (normal pour PNG/WebP), infos du fichier:")
+                        print("ℹPas d’EXIF (normal pour PNG/WebP), infos du fichier:")
                         print_kv(info)
                     else:
-                        print("❌ Aucun EXIF/infos utiles trouvés (format PNG/WebP ou fichier nettoyé).")
+                        print("Aucun EXIF/infos utiles trouvés (format PNG/WebP ou fichier nettoyé).")
                 else:
-                    print("❌ Aucun EXIF trouvés. Possible que l’image ait été nettoyée (réseaux sociaux, export).")
+                    print("Aucun EXIF trouvés. Possible que l’image ait été nettoyée (réseaux sociaux, export).")
     except Exception as e:
         print(f"Erreur lecture: {e}")

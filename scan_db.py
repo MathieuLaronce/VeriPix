@@ -2,7 +2,7 @@ import os, time, sqlite3
 from PIL import Image
 
 DB = "./data/veripix.db"
-DATASET = "./dataset"  # avec ./dataset/reelle et ./dataset/artificielle
+DATASET = "./dataset"  
 
 def has_exif(path):
     try:
