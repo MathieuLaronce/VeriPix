@@ -2,8 +2,8 @@ import os
 import requests
 import time
 
-# 🔧 Paramètres simples
-CATEGORY = "Featured_pictures_of_cats"  # change si tu veux (ex: "Cats", "Birds", "Mountains")
+# Paramètres simples
+CATEGORY = "Featured_pictures_of_cats"  # categorie voulue
 N_IMAGES = 10
 OUT_DIR = "dataset/reelle"
 os.makedirs(OUT_DIR, exist_ok=True)
@@ -11,22 +11,22 @@ os.makedirs(OUT_DIR, exist_ok=True)
 API = "https://commons.wikimedia.org/w/api.php"
 HEADERS = {"User-Agent": "VeriPix/0.1 (edu)"}
 
-# 1) Récupère des liens d'images (une seule requête)
+# Récupère des liens d'images
 params = {
     "action": "query",
     "format": "json",
     "generator": "categorymembers",
     "gcmtitle": f"Category:{CATEGORY}",
-    "gcmnamespace": 6,           # Fichiers
-    "gcmlimit": N_IMAGES,        # on demande directement N
+    "gcmnamespace": 6,           
+    "gcmlimit": N_IMAGES,        
     "prop": "imageinfo",
     "iiprop": "url",
     "formatversion": 2
 }
 
-print("📸 Récupération des liens...")
+print("Récupération des liens")
 r = requests.get(API, params=params, headers=HEADERS, timeout=30)
-data = r.json()  # (si ça plante ici, c'est que Wikimedia a renvoyé autre chose que du JSON)
+data = r.json()  
 
 pages = (data.get("query") or {}).get("pages") or []
 urls = [p["imageinfo"][0]["url"] for p in pages if p.get("imageinfo")]
@@ -40,13 +40,13 @@ for i, url in enumerate(urls, 1):
     if ".png" in low: ext = ".png"
     elif ".jpeg" in low: ext = ".jpeg"
     elif ".svg" in low: 
-        print(f"⏭️  SVG ignoré: {url}")
+        print(f"⏭  SVG ignoré: {url}")
         continue
 
     path = os.path.join(OUT_DIR, f"wikimedia_{i}{ext}")
     with open(path, "wb") as f:
         f.write(img)
-    print(f"✅ {path}")
+    print(f" {path}")
     time.sleep(0.5)
 
 print("Terminé.")
