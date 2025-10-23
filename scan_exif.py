@@ -3,7 +3,7 @@ from PIL import Image, ExifTags
 import exifread
 import os
 
-image_path = "dataset/test3.jpg"
+image_path = "dataset/reelle/test8.jpg"
 
 def print_kv(d):
     for k, v in d.items():
@@ -12,7 +12,7 @@ def print_kv(d):
 def read_with_pillow(path):
     img = Image.open(path)
     print(f"Format détecté: {img.format}, taille: {img.size}, mode: {img.mode}")
-    exif = img.getexif()  # ✅ méthode actuelle
+    exif = img.getexif()  #  méthode actuelle
     if not exif or len(exif) == 0:
         return {}
     out = {}
@@ -33,7 +33,7 @@ def read_png_info(path):
     return img.info  # dictionnaire (peut être vide)
 
 if not os.path.exists(image_path):
-    print("❌ Le chemin ne pointe pas vers un fichier existant.")
+    print(" Le chemin ne pointe pas vers un fichier existant.")
 else:
     # 1) Tentative Pillow EXIF
     try:
@@ -46,7 +46,7 @@ else:
             # 2) Tentative exifread (souvent plus verbeux sur JPEG/TIFF)
             exifr = read_with_exifread(image_path)
             if exifr:
-                print("✅ EXIF trouvées avec exifread:")
+                print("EXIF trouvées avec exifread:")
                 print_kv(exifr)
             else:
                 # 3) Si c'est un PNG/WebP, on regarde les infos non-EXIF

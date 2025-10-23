@@ -19,5 +19,6 @@ def ela_score(path, quality=85):
 
     return avg
 
-print("ELA score:", ela_score("/home/mathieu/iadev/veripix/dataset/test3.jpeg"))
-
+print("ELA score:", ela_score("/home/mathieu/iadev/veripix/dataset/artificielle/1.jpeg" \
+""))
+0
