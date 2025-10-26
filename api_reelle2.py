@@ -1,8 +1,10 @@
 import requests, os, time
 
 TAXON_ID = 47144   # 47144=chien, 118552=chat
-N = 20
+N = 30
 OUT = "dataset/reelle"; os.makedirs(OUT, exist_ok=True)
+source = "inaturalist"
+
 
 params = {
     "taxon_id": TAXON_ID,

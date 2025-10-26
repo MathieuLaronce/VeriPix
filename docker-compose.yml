@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: my_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: isen
+      MONGO_INITDB_ROOT_PASSWORD: isen
+    volumes:
+      - ./db:/data/db
+    ports:
+      - 27017:27017

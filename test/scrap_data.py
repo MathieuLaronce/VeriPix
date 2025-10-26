@@ -1,12 +1,16 @@
 import requests
 from pathlib import Path
+import time
 
-url = "https://thispersondoesnotexist.com/"
-r = requests.get(url, headers={"User-Agent": "VeriPix/0.1"})
-if r.status_code == 200:
-    Path("dataset/artificielle").mkdir(parents=True, exist_ok=True)
-    with open("dataset/artificielle/tpdne_1.jpg", "wb") as f:
-        f.write(r.content)
-    print("Image enregistrée")
-else:
-    print("Erreur :", r.status_code)
+Path("dataset/artificielle").mkdir(parents=True, exist_ok=True)
+
+for i in range(1, 21):  # 20 images
+    url = "https://thispersondoesnotexist.com/"
+    r = requests.get(url, headers={"User-Agent": "VeriPix/0.1"})
+    if r.status_code == 200:
+        with open(f"dataset/artificielle/tpdne_{i}.jpg", "wb") as f:
+            f.write(r.content)
+        print(f" Image {i} enregistrée")
+    else:
+        print(f"Erreur {r.status_code} sur l'image {i}")
+    time.sleep(3)  # pause d'une seconde entre chaque téléchargement

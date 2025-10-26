@@ -15,6 +15,7 @@ __pycache__/
 # Dossiers de données
 data/
 dataset/
+db/
 
 # OS / éditeurs
 .DS_Store
