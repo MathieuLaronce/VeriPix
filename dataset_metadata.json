@@ -1,0 +1,200 @@
+[
+    {
+        "id_image": 1,
+        "nom_image": "wikimedia_5.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_5.jpg",
+        "ela_score": 8.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 2,
+        "nom_image": "6.png",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/6.png",
+        "ela_score": 70.0,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 3,
+        "nom_image": "wikimedia_1.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_1.jpg",
+        "ela_score": 30.0,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 4,
+        "nom_image": "4.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/4.jpg",
+        "ela_score": 10.0,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 5,
+        "nom_image": "2.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/2.jpg",
+        "ela_score": 6.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 6,
+        "nom_image": "requin.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/requin.jpg",
+        "ela_score": 24.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 7,
+        "nom_image": "wikimedia_4.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_4.jpg",
+        "ela_score": 14.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 8,
+        "nom_image": "test5.png",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/test5.png",
+        "ela_score": 45.0,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 9,
+        "nom_image": "wikimedia_8.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_8.jpg",
+        "ela_score": 7.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 10,
+        "nom_image": "test6.PNG",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/test6.PNG",
+        "ela_score": 51.0,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 11,
+        "nom_image": "test8.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/test8.jpg",
+        "ela_score": 7.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 12,
+        "nom_image": "wikimedia_6.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_6.jpg",
+        "ela_score": 53.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 13,
+        "nom_image": "wikimedia_7.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_7.jpg",
+        "ela_score": 43.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 14,
+        "nom_image": "wikimedia_3.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_3.jpg",
+        "ela_score": 55.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 15,
+        "nom_image": "10.png",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/10.png",
+        "ela_score": 39.0,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 16,
+        "nom_image": "wikimedia_9.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_9.jpg",
+        "ela_score": 30.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 17,
+        "nom_image": "wikimedia_10.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_10.jpg",
+        "ela_score": 35.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 18,
+        "nom_image": "wikimedia_9.jpg.resaved.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_9.jpg.resaved.jpg",
+        "ela_score": null,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 19,
+        "nom_image": "wikimedia_2.jpg",
+        "type_image": "reelle",
+        "path_local": "./dataset/reelle/wikimedia_2.jpg",
+        "ela_score": 25.0,
+        "has_exif": 1,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 20,
+        "nom_image": "tpdne_1.jpg",
+        "type_image": "artificielle",
+        "path_local": "./dataset/artificielle/tpdne_1.jpg",
+        "ela_score": null,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 21,
+        "nom_image": "1.jpeg",
+        "type_image": "artificielle",
+        "path_local": "./dataset/artificielle/1.jpeg",
+        "ela_score": null,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    },
+    {
+        "id_image": 22,
+        "nom_image": "3.jpeg",
+        "type_image": "artificielle",
+        "path_local": "./dataset/artificielle/3.jpeg",
+        "ela_score": null,
+        "has_exif": 0,
+        "date_import": "2025-10-23 16:20:12"
+    }
+]

@@ -3,7 +3,7 @@ import requests
 import time
 
 # Paramètres simples
-CATEGORY = "Featured_pictures_of_cats"  # categorie voulue
+CATEGORY = "Featured_pictures_of_dogs"  # categorie 
 N_IMAGES = 10
 OUT_DIR = "dataset/reelle"
 os.makedirs(OUT_DIR, exist_ok=True)
