@@ -1,7 +1,7 @@
 from PIL import Image, ImageChops, ImageEnhance
 import os, sqlite3, time
 
-path = "/home/mathieu/iadev/veripix/dataset/reelle"
+path = "/home/mathieu/iadev/veripix/dataset/reelle" and "/home/mathieu/iadev/veripix/dataset/artificielle"
 
 DB_PATH = "./data/veripix.db"
 conn = sqlite3.connect(DB_PATH)

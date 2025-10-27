@@ -1,4 +1,3 @@
-# collect_to_mongo.py
 """
 Ajoute automatiquement dans MongoDB les infos des images collectées
 depuis les dossiers dataset/reelle et dataset/artificielle.
@@ -38,7 +37,7 @@ def collect_images():
                 "path_local": path,
                 "nom_image": file,
                 "type_image": type_image,
-                "source": "wikimedia" if type_image == "reelle" else "thispersondoesnotexist",
+                "source": source,
                 "collected_at": datetime.utcnow(),
                 "status": "new"
             }

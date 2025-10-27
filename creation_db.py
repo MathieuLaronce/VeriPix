@@ -28,12 +28,6 @@ CREATE TABLE mesures (
     id_feature INTEGER PRIMARY KEY AUTOINCREMENT,
     id_image INTEGER,
     ela_score REAL,
-    laplacian_var REAL,
-    edge_density REAL,
-    mean_r REAL,
-    mean_g REAL,
-    mean_b REAL,
-    dominante_couleur TEXT,
     date_analyse TEXT,
     FOREIGN KEY(id_image) REFERENCES images(id_image)
 );
