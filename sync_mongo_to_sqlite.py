@@ -1,4 +1,3 @@
-# sync_mongo_to_sqlite.py
 import os, time, json, sqlite3
 from pymongo import MongoClient
 
@@ -79,8 +78,6 @@ def sync_mongo_to_sqlite(
                 page_url     = d.get("page_url")
                 download_url = d.get("download_url")
                 license_code = d.get("license") or d.get("license_code")
-                taxon_name   = d.get("taxon_name")
-                common_name  = d.get("common_name")
                 location     = d.get("location")
 
                 # convertir ObjectId et datetime → str avant json.dumps
@@ -91,13 +88,12 @@ def sync_mongo_to_sqlite(
 
                 cur.execute("""
                     INSERT INTO provenance
-                    (id_image, provider_id, page_url, download_url, license_code, taxon_name, common_name, location, raw_json)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    (id_image, provider_id, page_url, download_url, license_code, location, raw_json)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                 """, (
                     id_image,
                     (d.get("extra") or {}).get("observation_id"),
-                    page_url, download_url, license_code,
-                    taxon_name, common_name, location, raw_json
+                    page_url, download_url, license_code, location, raw_json
                 ))
                 conn.commit()
                 prov_ins += 1

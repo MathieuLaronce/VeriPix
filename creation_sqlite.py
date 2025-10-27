@@ -49,9 +49,7 @@ cur.executescript("""
 INSERT OR IGNORE INTO sources (name, kind, base_url) VALUES
 ('inaturalist','api','https://api.inaturalist.org/'),
 ('artbreeder','scraping','https://www.artbreeder.com/'),
-('wikimedia','api','https://commons.wikimedia.org/'),
-('thispersondoesnotexist','web','https://thispersondoesnotexist.com/'),
-('local','fichier',NULL);
+('local','fichier','perso');
 """)
 
 # ========================
@@ -67,8 +65,6 @@ CREATE TABLE provenance (
     page_url TEXT,
     download_url TEXT,
     license_code TEXT,
-    taxon_name TEXT,
-    common_name TEXT,
     location TEXT,
     raw_json TEXT,
     FOREIGN KEY (id_image) REFERENCES images(id_image)
@@ -76,26 +72,7 @@ CREATE TABLE provenance (
 """)
 
 # ========================
-# 4️TABLE EXIF (optionnelle)
-# ========================
-cur.executescript("""
-DROP TABLE IF EXISTS exif;
-
-CREATE TABLE exif (
-    id_exif INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_image INTEGER NOT NULL,
-    camera_make TEXT,
-    camera_model TEXT,
-    datetime_original TEXT,
-    gps_lat REAL,
-    gps_lon REAL,
-    raw_exif_json TEXT,
-    FOREIGN KEY (id_image) REFERENCES images(id_image)
-);
-""")
-
-# ========================
-# 5️TABLE MESURES
+# 4 TABLE MESURES
 # ========================
 cur.executescript("""
 DROP TABLE IF EXISTS mesures;
@@ -109,7 +86,6 @@ CREATE TABLE mesures (
     mean_r REAL,
     mean_g REAL,
     mean_b REAL,
-    dominante_couleur TEXT,
     date_analyse TEXT,
     FOREIGN KEY(id_image) REFERENCES images(id_image)
 );
