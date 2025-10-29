@@ -7,9 +7,9 @@ os.makedirs("data", exist_ok=True)
 conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 
-# ========================
-# 1️TABLE IMAGES
-# ========================
+
+# 1 TABLE IMAGES
+
 cur.executescript("""
 DROP TABLE IF EXISTS images;
 
@@ -29,9 +29,9 @@ CREATE TABLE images (
 );
 """)
 
-# ========================
-# 2️TABLE SOURCES
-# ========================
+
+# 2 TABLE SOURCES
+
 cur.executescript("""
 DROP TABLE IF EXISTS sources;
 
@@ -39,9 +39,7 @@ CREATE TABLE sources (
     id_source INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL,
     kind TEXT CHECK(kind IN ('api','scraping','fichier','sql','bigdata')),
-    base_url TEXT,
-    notes TEXT
-);
+    base_url TEXT);
 """)
 
 # Remplissage initial
@@ -52,9 +50,9 @@ INSERT OR IGNORE INTO sources (name, kind, base_url) VALUES
 ('local','fichier','perso');
 """)
 
-# ========================
-# 3️TABLE PROVENANCE
-# ========================
+
+# 3 TABLE PROVENANCE
+
 cur.executescript("""
 DROP TABLE IF EXISTS provenance;
 
@@ -65,15 +63,14 @@ CREATE TABLE provenance (
     page_url TEXT,
     download_url TEXT,
     license_code TEXT,
-    location TEXT,
-    raw_json TEXT,
+    localisation TEXT,
     FOREIGN KEY (id_image) REFERENCES images(id_image)
 );
 """)
 
-# ========================
+
 # 4 TABLE MESURES
-# ========================
+
 cur.executescript("""
 DROP TABLE IF EXISTS mesures;
 
@@ -91,9 +88,9 @@ CREATE TABLE mesures (
 );
 """)
 
-# ========================
-# 6TABLE PREDICTIONS
-# ========================
+
+# 5 TABLE PREDICTIONS
+
 cur.executescript("""
 DROP TABLE IF EXISTS predictions;
 
