@@ -1,4 +1,3 @@
-# api_reelle3.py
 import requests, os, time, json
 
 def run_api_reelle(taxon_id=47144, n=30, out_dir="dataset/reelle"):
@@ -10,7 +9,7 @@ def run_api_reelle(taxon_id=47144, n=30, out_dir="dataset/reelle"):
     source = "inaturalist"
 
     params = {
-        "taxon_id": taxon_id,                # 47144=chien, 118552=chat
+        "taxon_id": taxon_id,                # 47144=chien 118552=chat
         "photos": "true",
         "photo_licenses": "cc0,cc-by,cc-by-sa",
         "per_page": 50,
@@ -40,7 +39,7 @@ def run_api_reelle(taxon_id=47144, n=30, out_dir="dataset/reelle"):
         if i >= n:
             break
 
-    # --- Sauvegarde des métadonnées en JSON ---
+    # Sauvegarde des métadonnées en JSON 
     meta_dir = "data"
     os.makedirs(meta_dir, exist_ok=True)
     json_path = os.path.join(meta_dir, "inaturalist_meta.json")
