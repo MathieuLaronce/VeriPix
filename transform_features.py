@@ -125,13 +125,13 @@ def enrich_images_and_mesures():
             """, (w, h, taille_ko, exif_flag, id_image))
             info_updated += 1
         except Exception as e:
-            print(f"⚠️ MAJ infos échouée id_image={id_image} : {e}")
+            print(f"MAJ infos échouée id_image={id_image} : {e}")
 
     if info_updated:
         conn.commit()
-        print(f"📐 Infos mises à jour pour {info_updated} image(s).")
+        print(f"Infos mises à jour pour {info_updated} image(s).")
     else:
-        print("📐 Aucune info à compléter.")
+        print("Aucune info à compléter.")
 
     # 2) Calcul features & upsert mesures
     cur.execute("SELECT id_image, path_local FROM images")
@@ -182,7 +182,7 @@ def enrich_images_and_mesures():
                 ins += 1
 
         except Exception as e:
-            print(f"⚠️ Features échoués id_image={id_image} : {e}")
+            print(f"Features échoués id_image={id_image} : {e}")
 
     conn.commit()
     conn.close()
@@ -191,6 +191,6 @@ def enrich_images_and_mesures():
     return {"images_info_updated": info_updated, "mesures_inserted": ins, "mesures_updated": upd}
 
 if __name__ == "__main__":
-    print("🔧 Enrichissement en cours…")
+    print("chargemenrt en cours…")
     res = enrich_images_and_mesures()
-    print("✅ Terminé :", res)
+    print("Terminé :", res)
