@@ -16,6 +16,7 @@ __pycache__/
 data/
 dataset/
 db/
+test/
 
 # OS / éditeurs
 .DS_Store
