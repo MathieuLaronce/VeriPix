@@ -8,7 +8,7 @@ conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 
 
-# 1 TABLE IMAGES
+# Table images
 
 cur.executescript("""
 DROP TABLE IF EXISTS images;
@@ -30,7 +30,7 @@ CREATE TABLE images (
 """)
 
 
-# 2 TABLE SOURCES
+#TABLE SOURCES
 
 cur.executescript("""
 DROP TABLE IF EXISTS sources;
@@ -51,7 +51,7 @@ INSERT OR IGNORE INTO sources (name, kind, base_url) VALUES
 """)
 
 
-# 3 TABLE PROVENANCE
+# TABLE PROVENANCE
 
 cur.executescript("""
 DROP TABLE IF EXISTS provenance;
@@ -64,12 +64,12 @@ CREATE TABLE provenance (
     download_url TEXT,
     license_code TEXT,
     localisation TEXT,
-    FOREIGN KEY (id_image) REFERENCES images(id_image)
+    FOREIGN KEY (id_image) REFERENCES images(id_image) ON DELETE CASCADE
 );
 """)
 
 
-# 4 TABLE MESURES
+# TABLE MESURES
 
 cur.executescript("""
 DROP TABLE IF EXISTS mesures;
@@ -84,12 +84,12 @@ CREATE TABLE mesures (
     mean_g REAL,
     mean_b REAL,
     date_analyse TEXT,
-    FOREIGN KEY(id_image) REFERENCES images(id_image)
+    FOREIGN KEY (id_image) REFERENCES images(id_image) ON DELETE CASCADE
 );
 """)
 
 
-# 5 TABLE PREDICTIONS
+# TABLE PREDICTIONS
 
 cur.executescript("""
 DROP TABLE IF EXISTS predictions;
@@ -101,7 +101,7 @@ CREATE TABLE predictions (
     probabilite REAL,
     model_version TEXT,
     created_at TEXT,
-    FOREIGN KEY(id_image) REFERENCES images(id_image)
+    FOREIGN KEY(id_image) REFERENCES images(id_image) ON DELETE CASCADE
 );
 """)
 
