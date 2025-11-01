@@ -1,4 +1,3 @@
-# json_to_mongo2.py
 import json, os
 from datetime import datetime
 from pymongo import MongoClient
@@ -20,7 +19,7 @@ def load_jsons_to_mongo(
 
     summary = {"inat_inserted": 0, "art_inserted": 0}
 
-    # ----- iNaturalist (réelles)
+    # iNaturalist (réelle)
     if os.path.exists(json_path_inat):
         with open(json_path_inat, "r", encoding="utf-8") as f:
             hits = json.load(f)
@@ -70,7 +69,7 @@ def load_jsons_to_mongo(
     else:
         print("JSON iNaturalist non trouvé, saute:", json_path_inat)
 
-    # ----- Artbreeder (artificielles)
+    # Artbreeder (artificielles)
     if os.path.exists(json_path_art):
         with open(json_path_art, "r", encoding="utf-8") as f:
             meta = json.load(f)
