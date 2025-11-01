@@ -42,7 +42,7 @@ def run_scrap_artif(max_images=30):
 
     # Extraction des images
     images = soup.find_all("img")
-    print(f"🧩 Trouvé {len(images)} balises <img> sur la page.")
+    print(f"Trouvé {len(images)} balises <img> sur la page.")
 
     # Téléchargement + collecte métadonnées
     count = 0
@@ -112,10 +112,10 @@ def run_scrap_artif(max_images=30):
 
     print(f"Métadonnées exportées → {json_path}")
 
-    # ✅ Retour utile pour ton ETL
+    # Retour pour l'ETL
     return {"source": source, "nb_images": count, "json": json_path}
 
 
-# Permet de lancer le script seul si besoin
+
 if __name__ == "__main__":
     run_scrap_artif()
