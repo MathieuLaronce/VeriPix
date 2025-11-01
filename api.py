@@ -12,18 +12,18 @@ import jwt
 
 DB = "./data/veripix.db"
 
-# --- Secrets JWT ---
+# Secrets JWT 
 SECRET_KEY = os.getenv("VERIPIX_JWT_SECRET", "dev-secret-change-me")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 20
 
-# --- Utilisateur démo (remplacer par une vraie persistance si besoin) ---
+# Utilisateur fake
 FAKE_USER = {
     "username": os.getenv("VERIPIX_USER", "veripix"),
     "password": os.getenv("VERIPIX_PASS", "veripix"),  # en clair pour la démo
 }
 
-# ---------- OpenAPI meta (tags & doc) ----------
+# (tags & doc)
 tags_metadata = [
     {"name": "Système", "description": "Santé du service et version."},
     {"name": "Auth", "description": "Authentification OAuth2 / JWT."},
@@ -53,17 +53,18 @@ app.add_middleware(
 # OAuth2 (affiche le cadenas dans Swagger)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-# ---------- DB helper ----------
+# DB helper 
 
 def get_db():
     conn = sqlite3.connect(DB)
     conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
     try:
         yield conn
     finally:
         conn.close()
 
-# ---------- AUTH / JWT utils ----------
+# AUTH / JWT utils 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()
@@ -88,7 +89,17 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
         raise credentials_exception
     return username
 
-# ---------- Schemas (Pydantic) ----------
+def require_admin(token: str = Depends(oauth2_scheme)) -> None:
+    """Vérifie que le token JWT est valide et que l'utilisateur a le rôle admin."""
+    credentials_exception = HTTPException(status_code=401, detail="Token invalide ou expiré")
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if payload.get("role") != "admin":
+            raise HTTPException(status_code=403, detail="Droits insuffisants")
+    except Exception:
+        raise credentials_exception
+
+# Schemas (Pydantic) 
 
 class ImageOut(BaseModel):
     id_image: int
@@ -114,7 +125,9 @@ class ImageDetailOut(ImageOut):
     date_analyse: Optional[str] = None
 
 
-# ---------- Routers par domaine (un seul fichier) ----------
+
+
+# Routers par domaine (un seul fichier)
 
 auth = APIRouter(prefix="/auth", tags=["Auth"])
 system = APIRouter(tags=["Système"])  # pas de prefix (health/version)
@@ -123,7 +136,7 @@ stats = APIRouter(prefix="/stats", tags=["Stats"])
 admin = APIRouter(prefix="/admin", tags=["Admin"], dependencies=[Depends(get_current_user)])
 
 
-# ===== Auth =====
+# Auth 
 
 @auth.post(
     "/login",
@@ -137,7 +150,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": token, "token_type": "bearer"}
 
 
-# ===== Système =====
+# Système
 
 @system.get("/health", summary="Health")
 def health():
@@ -149,7 +162,7 @@ def version():
     return {"app": "VeriPix API", "version": "1.0"}
 
 
-# ===== Images =====
+# Images
 
 @images.get(
     "/",
@@ -196,8 +209,23 @@ def one_image(id_image: int, db: sqlite3.Connection = Depends(get_db)):
         raise HTTPException(404, "Image non trouvée")
     return ImageDetailOut(**dict(row))
 
+@images.delete("/{id_image}", 
+    summary="Delete Image", 
+    description="Supprime une image par son ID avec les données liées",
+    dependencies=[Depends(require_admin)]
+    )
+def delete_(id_image: int, db: sqlite3.Connection = Depends(get_db)):
+     cur = db.cursor()
+     cur.execute(
+        """
+        DELETE FROM `images`
+        WHERE id_image = ?
+        """,
+        (id_image,))
+     db.commit()
+     return {"message": "Données d'image supprimée"}
 
-# ===== Stats =====
+# Stats 
 
 @stats.get(
     "/ela-by-type",
@@ -207,12 +235,13 @@ def ela_by_type(db: sqlite3.Connection = Depends(get_db)):
     cur = db.cursor()
     cur.execute(
         """
-        SELECT i.type_image,
-               ROUND(AVG(m.ela_score), 4) AS avg_ela,
-               COUNT(*) AS n
-        FROM images i JOIN mesures m ON m.id_image = i.id_image
-        GROUP BY i.type_image
-        ORDER BY i.type_image
+       SELECT images.type_image,
+       AVG(mesures.ela_score) AS moyenne_ela,
+       COUNT(*) AS total
+       FROM images
+       JOIN mesures ON mesures.id_image = images.id_image
+       GROUP BY images.type_image;
+
         """
     )
     return [dict(r) for r in cur.fetchall()]
@@ -255,8 +284,7 @@ def stats_basic(db: sqlite3.Connection = Depends(get_db)):
     return out
 
 
-# ===== Admin =====
-
+# Admin 
 @admin.post(
     "/reindex",
     summary="Reindex (purge mesures)",
