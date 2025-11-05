@@ -7,7 +7,7 @@ Le pipeline permet ensuite d’exposer ces données via une API FastAPI.
 
 ## Fonctionnement général
 
-Le projet s’exécute via un **script principal** :
+Le projet s’exécute via un script principal :
 
 ```
 python main.py
@@ -15,8 +15,8 @@ python main.py
 
 Le scrip main.py lance automatiquement :
 
-1. **`creation_sqlite.py`** → création / réinitialisation de la base SQLite
-2. **`etl.py`** → exécution du pipeline complet :
+1. **`creation_sqlite.py` → création / réinitialisation de la base SQLite
+2. **`etl.py` → exécution du pipeline complet :
 
 ```
 main.py
@@ -30,7 +30,7 @@ main.py
       └── sync_mongo_to_sqlite.py  (inutile de relancer si features ok)
 ```
 
-Une fois l’ETL terminé, les données sont disponibles dans **SQLite (`veripix.db`)** et peuvent être exposées via l’API.
+Une fois l’ETL terminé, les données sont disponibles dans SQLite (`veripix.db`) et peuvent être exposées via l’API.
 
 ---
 
@@ -61,11 +61,11 @@ uvicorn api:app --reload  # lance l'API
 ```
 
 API disponible ensuite sur :  
-➡️ http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/docs
 
 ---
 
-## 🗄️ Bases de données utilisées
+## Bases de données utilisées
 
 | Type | Usage |
 |-------|-------|
