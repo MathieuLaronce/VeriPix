@@ -15,8 +15,8 @@ python main.py
 
 Le scrip main.py lance automatiquement :
 
-1. **`creation_sqlite.py` → création / réinitialisation de la base SQLite
-2. **`etl.py` → exécution du pipeline complet :
+1. `creation_sqlite.py` → création 
+2. `etl.py` → exécution du pipeline complet :
 
 ```
 main.py
