@@ -1,4 +1,7 @@
-![Texte alternatif](logo.png)
+<p align="center">
+  <img src="logo.png" width="300">
+</p>
+
 
 
 # VeriPix – Vérificateur d'images réelle ou artificielle
