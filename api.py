@@ -5,7 +5,8 @@ from typing import Optional, List
 
 from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 
 import jwt 
@@ -17,16 +18,17 @@ SECRET_KEY = os.getenv("VERIPIX_JWT_SECRET", "dev-secret-change-me")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 20
 
-# Utilisateur fake
+# Utilisateur(avec rôle)
 FAKE_USER = {
     "username": os.getenv("VERIPIX_USER", "veripix"),
-    "password": os.getenv("VERIPIX_PASS", "veripix"),  # en clair pour la démo
+    "password": os.getenv("VERIPIX_PASS", "veripix"),  # 
+    "role": os.getenv("VERIPIX_ROLE", "admin"),        # 
 }
 
 # (tags & doc)
 tags_metadata = [
     {"name": "Système", "description": "Santé du service et version."},
-    {"name": "Auth", "description": "Authentification OAuth2 / JWT."},
+    {"name": "Auth", "description": "Authentification JWT Bearer (login + token)."},
     {"name": "Images", "description": "Lister et consulter des images."},
     {"name": "Stats", "description": "Statistiques et agrégations."},
     {"name": "Admin", "description": "Actions d’administration"},
@@ -44,14 +46,14 @@ app = FastAPI(
 # CORS (utile si un front va consommer l’API)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # à restreindre en prod
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# OAuth2 (affiche le cadenas dans Swagger)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+# Auth scheme : HTTP Bearer
+http_bearer = HTTPBearer()
 
 # DB helper 
 
@@ -77,8 +79,9 @@ def authenticate_user(username: str, password: str) -> bool:
     return username == FAKE_USER["username"] and password == FAKE_USER["password"]
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(http_bearer)) -> str:
     """Vérifie le JWT (Authorization: Bearer <token>) et renvoie le username."""
+    token = credentials.credentials
     credentials_exception = HTTPException(status_code=401, detail="Token invalide ou expiré")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -89,8 +92,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
         raise credentials_exception
     return username
 
-def require_admin(token: str = Depends(oauth2_scheme)) -> None:
+def require_admin(credentials: HTTPAuthorizationCredentials = Depends(http_bearer)) -> None:
     """Vérifie que le token JWT est valide et que l'utilisateur a le rôle admin."""
+    token = credentials.credentials
     credentials_exception = HTTPException(status_code=401, detail="Token invalide ou expiré")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -127,26 +131,29 @@ class ImageDetailOut(ImageOut):
 
 
 
-# Routers par domaine (un seul fichier)
+# Routers par domaine
 
 auth = APIRouter(prefix="/auth", tags=["Auth"])
 system = APIRouter(tags=["Système"])  # pas de prefix (health/version)
-images = APIRouter(prefix="/images", tags=["Images"])
-stats = APIRouter(prefix="/stats", tags=["Stats"])
-admin = APIRouter(prefix="/admin", tags=["Admin"], dependencies=[Depends(get_current_user)])
+# PROTÉGÉ: lecture des données nécessite un JWT valide
+images = APIRouter(prefix="/images", tags=["Images"], dependencies=[Depends(get_current_user)])
+stats = APIRouter(prefix="/stats", tags=["Stats"], dependencies=[Depends(get_current_user)])
+# ADMIN UNIQUEMENT: nécessite rôle admin
+admin = APIRouter(prefix="/admin", tags=["Admin"], dependencies=[Depends(require_admin)])
 
 
 # Auth 
 
 @auth.post(
     "/login",
-    summary="Login (OAuth2)",
+    summary="Login (JWT Bearer)",
     description="Envoie username/password (form-data). Retourne un access token JWT.",
 )
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     if not authenticate_user(form_data.username, form_data.password):
         raise HTTPException(status_code=401, detail="Identifiants invalides")
-    token = create_access_token({"sub": form_data.username})
+    # Inclure le rôle dans le token pour l'autorisation
+    token = create_access_token({"sub": FAKE_USER["username"], "role": FAKE_USER["role"]})
     return {"access_token": token, "token_type": "bearer"}
 
 
@@ -311,7 +318,7 @@ def admin_label(id_image: int, label: str, db: sqlite3.Connection = Depends(get_
     return {"ok": True, "id_image": id_image, "new_label": label}
 
 
-# ---------- Montage des routers ----------
+# Montage des routers
 app.include_router(auth)
 app.include_router(system)
 app.include_router(images)
