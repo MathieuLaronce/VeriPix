@@ -1,3 +1,6 @@
+![Texte alternatif](logo.png)
+
+
 # VeriPix – Vérificateur d'images réelle ou artificielle
 
 VeriPix est un projet en Python dont l’objectif est d’acquérir, stocker, enrichir et analyser des images afin d’en extraire des caractéristiques visuelles (ELA, netteté, couleurs, etc.).  
