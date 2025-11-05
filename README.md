@@ -4,9 +4,9 @@
 
 
 
-# VeriPix – Vérificateur d'images réelle ou artificielle
+# Vérificateur d'images réelle ou artificielle
 
-VeriPix est un projet en Python dont l’objectif est d’acquérir, stocker, enrichir et analyser des images afin d’en extraire des caractéristiques visuelles (ELA, netteté, couleurs, etc.).  
+VeriPix est un projet en Python dont l’objectif est d’acquérir, stocker(en local) et analyser des images afin d’en extraire des données et des caractéristiques visuelles (ELA, netteté, couleurs, etc.).  
 Le pipeline permet ensuite d’exposer ces données via une API FastAPI.
 
 ---
@@ -56,11 +56,11 @@ Une fois l’ETL terminé, les données sont disponibles dans SQLite (`veripix.d
 
 ---
 
-## Lancement rapide
+## Lancement
 
 ```bash
-git clone <repo>
-cd <repo>
+git clone https://github.com/MathieuLaronce/VeriPix
+cd veripix
 pip install -r requirements.txt
 python main.py      # crée la base et exécute tout le pipeline
 uvicorn api:app --reload  # lance l'API
@@ -75,11 +75,11 @@ http://127.0.0.1:8000/docs
 
 | Type | Usage |
 |-------|-------|
-| **MongoDB** | stockage temporaire (staging) des métadonnées d’images |
-| **SQLite** | base finale contenant : images, mesures, provenance |
+| **MongoDB** | stockage temporaire (staging) des métadonnées de suivi d’images 
+| **SQLite** | base finale contenant les tables : IMAGES, MESURES, PROVENANCES, SOURCES, (PREDICTION= qui sera utile pour la suite du projet)
  
 ---
 
 ## Auteur
 
-Projet réalisé dans le cadre d’un travail sur le traitement et l’analyse d’images.
+Mathieu Laronce
