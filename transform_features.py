@@ -5,9 +5,9 @@ from numpy.lib.stride_tricks import sliding_window_view
 
 DB = "./data/veripix.db"
 
-# -----------------------
+
 # Utilitaires
-# -----------------------
+
 def has_exif_pillow(path: str) -> bool:
     try:
         with Image.open(path) as im:
@@ -37,7 +37,7 @@ def to_rgb_array(path: str, max_side: int = 1024) -> np.ndarray:
 
 def ela_p99_robust(path: str, base_quality: int = 98, test_quality: int = 85, max_side: int = 1024) -> float:
     """
-    ELA robuste & normalisé :
+  
     1) Normalise l'image (RGB + resize)
     2) Sauvegarde une base JPG (qualité haute)
     3) Re-sauvegarde la base en JPG (qualité plus basse)
@@ -93,9 +93,9 @@ def edge_density_sobel(arr_rgb: np.ndarray, thresh: float = 25.0) -> float:
     mag = np.hypot(gx, gy)
     return float((mag > thresh).mean())
 
-# -----------------------
+
 # Enrichissement BDD
-# -----------------------
+
 def enrich_images_and_mesures():
     conn = sqlite3.connect(DB)
     cur = conn.cursor()
@@ -115,14 +115,15 @@ def enrich_images_and_mesures():
         try:
             with Image.open(path) as im:
                 w, h = im.size
-            taille_ko = round(os.path.getsize(path) / 1024.0, 2)  # 2 décimales
+            taille_ko = round(os.path.getsize(path) / 1024.0, 2) 
             exif_flag = 1 if has_exif_pillow(path) else 0
 
             cur.execute("""
                 UPDATE images
                 SET largeur=?, hauteur=?, taille_ko=?, has_exif=?
                 WHERE id_image=?
-            """, (w, h, taille_ko, exif_flag, id_image))
+            """, 
+            (w, h, taille_ko, exif_flag, id_image))
             info_updated += 1
         except Exception as e:
             print(f"MAJ infos échouée id_image={id_image} : {e}")
@@ -187,10 +188,10 @@ def enrich_images_and_mesures():
     conn.commit()
     conn.close()
 
-    print(f"✨ mesures: insérés={ins}, mis à jour={upd}")
+    print(f"mesures: insérés={ins}, mis à jour={upd}")
     return {"images_info_updated": info_updated, "mesures_inserted": ins, "mesures_updated": upd}
 
 if __name__ == "__main__":
-    print("chargemenrt en cours…")
+    print("chargemenrt en cours")
     res = enrich_images_and_mesures()
     print("Terminé :", res)
