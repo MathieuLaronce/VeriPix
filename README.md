@@ -5,9 +5,9 @@ Le pipeline permet ensuite d’exposer ces données via une API FastAPI.
 
 ---
 
-## Fonctionnement général
+## Fonctionnement
 
-Le projet s’exécute via un script principal :
+Le projet s’exécute avec le un script principal :
 
 ```
 python main.py
