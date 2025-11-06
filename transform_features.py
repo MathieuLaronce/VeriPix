@@ -80,6 +80,8 @@ def laplacian_variance_gray(arr_rgb: np.ndarray) -> float:
     conv = (win * kern).sum(axis=(2,3))
     return float(conv.var())
 
+
+
 def edge_density_sobel(arr_rgb: np.ndarray, thresh: float = 25.0) -> float:
     """Densité de bords via Sobel, proportion de pixels > seuil."""
     gray = 0.2989*arr_rgb[...,0] + 0.5870*arr_rgb[...,1] + 0.1140*arr_rgb[...,2]
@@ -94,13 +96,13 @@ def edge_density_sobel(arr_rgb: np.ndarray, thresh: float = 25.0) -> float:
     return float((mag > thresh).mean())
 
 
-# Enrichissement BDD
+# Enrichissement BDD par la BDD (source)
 
 def enrich_images_and_mesures():
     conn = sqlite3.connect(DB)
     cur = conn.cursor()
 
-    # 1) Compléter largeur/hauteur/taille_ko/has_exif si NULL
+    # 1) Compléter largeur/hauteur/taille_ko/has_exif si NULL 
     cur.execute("""
         SELECT id_image, path_local
         FROM images

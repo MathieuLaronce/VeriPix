@@ -24,6 +24,7 @@ def run_etl():
 
     # 4) TRANSFORM (features)
     print("[4/4] TRANSFORM — features…")
+    
     if enrich_images_and_mesures is not None:
         enrich_images_and_mesures()
     else:

@@ -18,7 +18,7 @@ def sync_mongo_to_sqlite(
     con = sqlite3.connect(sqlite_path)
     cur = con.cursor()
 
-    # je ne veut que ce qui n'est PAS encore "synced"
+    # je ne veut que ce qui n'est pas encore "synced"
     docs = list(col.find({"$or":[{"status":"new"},{"status":{"$exists":False}}]}))
     print("a synchroniser:", len(docs))
 
@@ -88,7 +88,7 @@ def sync_mongo_to_sqlite(
                 prov_ok += 1
                 print("  -> provenance ok (id_image={})".format(id_image))
 
-            # je ne veut que "synced" 
+            # je selectionne que "synced" 
               col.update_one({"_id": d["_id"]}, {"$set": {"status": "synced"}})
         except sqlite3.IntegrityError:
             # deja là on marque synced quand meme
